@@ -11,8 +11,6 @@ def moving_average_strategy(data, short_window = 5, long_window = 20):
     signals.iloc[short_window:, signals.columns.get_loc('Signal')] = (
         signals['Short_MA'].iloc[short_window:] > signals['Long_MA'].iloc[short_window:]).astype(int)
     
-    
-    
     signals['Position'] = signals['Signal'].diff()
     
     return signals   
