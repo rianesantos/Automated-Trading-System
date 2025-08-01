@@ -1,17 +1,28 @@
 from market_data import get_historical_data, get_current_price
 from strategies import moving_average_strategy
+from backtest import backtest_strategy
 import matplotlib.pyplot as plt
 
 def main():
-    ticker = 'AAPL' #pode ser alterado para qualquer outra
-    print("Coletando dados...")
-    data = get_historical_data(ticker)
+    tickers = ['AAPL', 'MSFT', 'GOOGL']   #pode ser alterado para qualquer outra
+    for ticker in tickers:
+        print(f"Analisando {ticker}...")
+        print("Coletando dados...")
+        data = get_historical_data(ticker)
     
-    print("Aplicando estrategias...")
-    signals = moving_average_strategy(data)
+        print("Aplicando estrategias...")
+        signals = moving_average_strategy(data)
     
-    print("Gerando gráficos...")
-    plot_signals (signals, ticker)
+        print("Gerando gráficos...")
+        plot_signals (signals, ticker)
+        
+        print("Executanto backtest...")
+        portfolio = backtest_strategy(signals, ticker)
+        
+        current_prices = get_current_price(ticker)
+        print("DEBUG - current_prices:", current_prices)
+        total_value = portfolio['Portfolio'].get_total_value(current_prices)
+        print(f"Valor final do portfólio para {ticker}: R${total_value:.2f}")
     
 def plot_signals (signals, ticker):
     plt.figure(figsize = (12,6))
@@ -31,7 +42,9 @@ def plot_signals (signals, ticker):
     plt.ylabel("Preço")
     plt.legend()
     plt.tight_layout()
-    plt.show()
+    plt.ioff()
+    plt.show(block = True)
+    plt.close()
     
 if __name__ == "__main__":
     main() 
