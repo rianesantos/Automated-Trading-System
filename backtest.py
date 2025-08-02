@@ -32,7 +32,7 @@ def backtest_strategy(signals, ticker = 'AAPL',initial_cash = 10000):
     portfolio.balance = initial_cash
     
     for i in range(1, len(signals)):
-        price = float(signals['Close'].iloc[i] if isinstance(signals['Close'].iloc[i], pd.Series)
+        price = float(signals['Close'].iloc[i].iloc[0] if isinstance(signals['Close'].iloc[i], pd.Series)
                       else signals ['Close'].iloc[i])
         signal = signals ['Position'].iloc[i]
         
