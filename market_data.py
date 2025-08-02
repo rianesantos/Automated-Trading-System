@@ -1,50 +1,42 @@
-from market_data import get_historical_data, get_current_price
-from strategies import moving_average_strategy
-from backtest import backtest_strategy
-import matplotlib.pyplot as plt
+import yfinance as yf
+import pandas as pd
+from typing import Union, Dict
 
-def main():
-    tickers = ['AAPL', 'MSFT', 'GOOGL']   #pode ser alterado para qualquer outra
-    for ticker in tickers:
-        print(f"Analisando {ticker}...")
-        print("Coletando dados...")
-        data = get_historical_data(ticker)
+def get_historical_data (ticker: Union [str, list], period: str = '6mo', interval: str = '1d') -> pd.DataFrame:
+    try: 
+        data = yf.download(ticker, period = period, interval = interval, progress = False, auto_adjust = True)
+        return data
     
-        print("Aplicando estrategias...")
-        signals = moving_average_strategy(data)
+    except Exception as e:
+        print(f"Erro ao obter dados historicos para {ticker}: {str(e)}")
+        return pd.DataFrame
     
-        print("Gerando gráficos...")
-        plot_signals (signals, ticker)
-        
-        print("Executanto backtest...")
-        portfolio = backtest_strategy(signals, ticker)
-        
-        current_prices = get_current_price(ticker)
-        print("DEBUG - current_prices:", current_prices)
-        total_value = portfolio['Portfolio'].get_total_value(current_prices)
-        print(f"Valor final do portfólio para {ticker}: R${total_value:.2f}")
-    
-def plot_signals (signals, ticker):
-    plt.figure(figsize = (12,6))
-    plt.plot(signals['Close'], label = 'Preço de Fechamento', color = 'black')
-    plt.plot(signals['Short_MA'], label = 'Média Curta (5)', color = 'blue', linestyle = '--')
-    plt.plot(signals['Long_MA'], label = 'Média Longa (20)', color = 'red', linestyle = '--')
-    
-    #Para marcar pontos de compra e venda.
-    buy_signals = signals[signals['Position'] == 1.00] 
-    sell_signals = signals[signals['Position'] == -1.00]
-    
-    plt.plot(buy_signals.index, buy_signals['Close'], '^', markersize = 10, color = 'green', label = 'Compra')
-    plt.plot(sell_signals.index, sell_signals['Close'], 'v', markersize = 10, color = 'red', label = 'Venda')
-    
-    plt.title (f"Estrátegia de Médias Móveis - {ticker}")
-    plt.xlabel("Data")
-    plt.ylabel("Preço")
-    plt.legend()
-    plt.tight_layout()
-    plt.ioff()
-    plt.show(block = True)
-    plt.close()
-    
-if __name__ == "__main__":
-    main() 
+def get_current_price(tickers: Union[str, list]) -> Dict[str, float]:
+    if isinstance(tickers, str):
+        tickers = [tickers]
+
+    prices = {}
+
+    try:
+        data = yf.download(tickers, period='1d', auto_adjust = True, group_by='ticker', progress=False)
+
+        for ticker in tickers:
+            try:
+                # Verifica se os dados retornaram no formato com múltiplos tickers
+                if ticker in data.columns.get_level_values(0):
+                    close_price = data[ticker]['Close'].iloc[-1]
+                else:
+                    close_price = data['Close'].iloc[-1]
+                
+                prices[ticker] = float(close_price)
+                print(f"[INFO] Preço atual de {ticker}: {close_price}")
+
+            except Exception as e:
+                prices[ticker] = None
+                print(f"[ERRO] Não foi possível obter preço para {ticker}: {e}")
+
+        return prices
+
+    except Exception as e:
+        print(f"[ERRO GERAL] Falha ao baixar dados de mercado: {e}")
+        return {ticker: None for ticker in tickers}
