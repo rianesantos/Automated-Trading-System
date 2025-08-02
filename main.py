@@ -1,7 +1,11 @@
 from market_data import get_historical_data, get_current_price
 from strategies import moving_average_strategy
 from backtest import backtest_strategy
+from risk import RiskManager
+from alerts import RealTimeNotifier
+from portfolio import Portfolio
 import matplotlib.pyplot as plt
+
 
 def main():
     tickers = ['AAPL', 'MSFT', 'GOOGL']   #pode ser alterado para qualquer outra
@@ -23,7 +27,22 @@ def main():
         print("DEBUG - current_prices:", current_prices)
         total_value = portfolio['Portfolio'].get_total_value(current_prices)
         print(f"Valor final do portfólio para {ticker}: R${total_value:.2f}")
-    
+        
+        notifier = RealTimeNotifier()
+        
+        market_alerts = notifier.update_and_check({ticker: current_prices})
+        for alert in market_alerts:
+            print(alert)
+        
+        print("Verificando risco...")
+        risk_manager = RiskManager(max_allocation_per_asset = 0.5, stop_loss = 0.1, stop_gain = 0.2)
+        
+        alloc_alerts = risk_manager.check_allocation_limits(portfolio, total_value)
+        stop_alerts = risk_manager.check_stop_limits(current_prices, portfolio)
+        
+        for alert in alloc_alerts + stop_alerts:
+            print(alert)
+        
 def plot_signals (signals, ticker):
     plt.figure(figsize = (12,6))
     plt.plot(signals['Close'], label = 'Preço de Fechamento', color = 'black')
