@@ -22,7 +22,7 @@ def get_current_price(tickers: Union[str, list]) -> Dict[str, float]:
 
         for ticker in tickers:
             try:
-                # Verifica se os dados retornaram no formato com múltiplos tickers
+                
                 if ticker in data.columns.get_level_values(0):
                     close_price = data[ticker]['Close'].iloc[-1]
                 else:
