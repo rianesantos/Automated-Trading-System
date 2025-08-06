@@ -10,7 +10,7 @@ class Portfolio:
         asset = {
             'name': name,
             'quantity': quantity,
-            'purchase_price': price,
+            'avg_price': price,
             'current_price' : price
         }
         self.assets.append(asset)
