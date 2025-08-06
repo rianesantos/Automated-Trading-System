@@ -1,5 +1,4 @@
-# SISTEMA AUTOMATIZADO DE NEGOCIAÇÕES (Automated Trading Systen)
-
+# AUTOMATED TRADING SYSTEM (Sistema Automatizado de Negociações)
 ---
 
 ## 📦 Funcionalidades
