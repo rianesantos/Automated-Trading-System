@@ -36,7 +36,7 @@ projeto-de-software/
 │   ├── risk.py              # Avaliação de risco (alocação, stop loss/gain)
 │   └── alerts.py            # Alertas de preço em tempo real
 
-
+```bash
 ---
 
 ## ⚙️ Como rodar o projeto
