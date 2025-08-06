@@ -90,7 +90,7 @@ O portfólio é simulado internamente; não há conexões com corretoras reais.
 Alertas são exibidos no terminal se houver variações superiores a 5% no preço.
 
 ✅ Exemplo de execução
-
+```
 ===== MAIN MENU =====
 1. Analyze a stock
 2. View current portfolio
