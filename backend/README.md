@@ -24,7 +24,7 @@
 
 ## 🗂 Estrutura do Projeto
 
-```bash
+```text
 projeto-de-software/
 │
 ├── backend/
@@ -36,7 +36,7 @@ projeto-de-software/
 │   ├── risk.py              # Avaliação de risco (alocação, stop loss/gain)
 │   └── alerts.py            # Alertas de preço em tempo real
 
-```bash
+```
 ---
 
 ## ⚙️ Como rodar o projeto
@@ -67,6 +67,8 @@ pandas
 ### 5.Execute o programa principal
 Estando dentro da pasta backend:
 python main_primal.py
+
+---
 
 🧪 Como usar
 Ao rodar o script, você verá um menu interativo no terminal:
