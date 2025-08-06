@@ -24,16 +24,18 @@
 
 ## 🗂 Estrutura do Projeto
 
+```bash
 projeto-de-software/
 │
 ├── backend/
-│ ├── main_primal.py # Ponto de entrada (menu e execução)
-│ ├── strategies.py # Estratégia de cruzamento de médias móveis
-│ ├── market_data.py # Coleta de dados de mercado com yfinance
-│ ├── backtest.py # Simulação de operações (compra e venda)
-│ ├── portfolio.py # Estrutura do portfólio
-│ ├── risk.py # Avaliação de risco (alocação, stop loss/gain)
-│ └── alerts.py # Alertas de preço em tempo real
+│   ├── main_primal.py       # Ponto de entrada (menu e execução)
+│   ├── strategies.py        # Estratégia de cruzamento de médias móveis
+│   ├── market_data.py       # Coleta de dados de mercado com yfinance
+│   ├── backtest.py          # Simulação de operações (compra e venda)
+│   ├── portfolio.py         # Estrutura do portfólio
+│   ├── risk.py              # Avaliação de risco (alocação, stop loss/gain)
+│   └── alerts.py            # Alertas de preço em tempo real
+
 
 ---
 
