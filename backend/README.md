@@ -69,7 +69,7 @@ python main_primal.py
 
 ---
 
-🧪 Como usar
+## 🧪 Como usar
 Ao rodar o script, você verá um menu interativo no terminal:
 
 ===== MAIN MENU =====
